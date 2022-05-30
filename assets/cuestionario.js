@@ -10,10 +10,6 @@ class Emigrante{
         this.edad   = edad; //int
         this.origen  = origen;// Ubicacion
         this.destino  = destino;// Ubicacion
-        // this.origen.continente  = origen.continente;// Ubicacion
-        // this.origen.pais  = origen.pais;// Ubicacion
-        // this.destino.continente  = destino.continente;// Ubicacion
-        // this.destino.pais  = destino.pais;// Ubicacion
         this.familia  = familia;// boolean
         this.mascota  = mascota;// boolean
         this.conductor  = conductor;// boolean
