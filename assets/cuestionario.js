@@ -1,7 +1,20 @@
+//--------------VARIABLES GLOBALES DEL SCRIPT----------------------
+let paisesOkUE = ["Francia","Italia","España","Portugal"] //Paises para emigrar configurados en script.
+let paisesOkAM = ["Mexico","Brasil","Chile","Estados Unidos", "Canada"]
+
+//--------------CLASES----------------------
 class Ubicacion{
     constructor(continente, pais) {
         this.continente = continente;//String
         this.pais = pais;//String
+    }
+}
+class Persona{ //VERSION NUEVA falta reemplazar en clase Emigrante (ver herencia)
+    constructor(nombre,edad,tituloSec,tituloUni,familia){
+        this.nombre = nombre; //String
+        this.edad   = edad; //int
+        this.tituloSec = tituloSec; //string o boolean? o ambos....
+        this.tituloUni = tituloUni; //string o boolean? o ambos....
     }
 }
 class Emigrante{
@@ -13,12 +26,12 @@ class Emigrante{
         this.familia  = familia;// boolean
         this.mascota  = mascota;// boolean
         this.conductor  = conductor;// boolean
-        this.esUE  = esUE; // boolean
-        this.tipoVisa  = tipoVisa; // String
+        this.esUE  = esUE; // boolean (es miembro de la Union Europea)
+        this.tipoVisa  = tipoVisa; // String (visa de estudios, trabajo)
         this.resultado = resultado ;
     }
     crearResultado(){
-        let textoa = this.nombre + " emigra desde " + this.origen.pais  + " hacia "+ this.destino.pais ;
+        let textoa = this.nombre + " emigra desde " + this.origen.pais  + " hacia "+ this.destino.pais +"." ;
         let textob ="";
         let textoc =""; 
         if (this.familia==true){
@@ -33,11 +46,11 @@ class Emigrante{
         }
         this.resultado = [textoa,textob];
         this.resultado.push(textoc);
-        //falta agregar carnet de conducir y tipo de visa
+        //falta agregar carnet de conducir y tipo de visa titulo universitario/secundario
         return this.resultado;
     }
 }
-
+//--------------FUNCIONES----------------------
 function esCiudadanoUE (){
     let aux = prompt("Es ciudadano de un país miembro de la UE?  (Si/No) ");
     let estadoUE = false; //asume que no es, salvo que se ingrese Si.
@@ -91,10 +104,10 @@ function espania(emigrante = Emigrante){//devuelve emigrante
         emigrante.mascota = false;
     }
     // -Contas con registro de conducir? (si/no)
-    return Emigrante;
+    return emigrante;
 }
 
-function europa(emigrante = Emigrante){
+function europa(emigrante = Emigrante){ //version 1 de la funcion para entregas iniciales
     let pais = prompt("Escriba el pais al que desea emigrar. (opciones: ESPAÑA, ITALIA, PORTUGAL, FRANCIA) ");
     switch (pais) {
         case "ESPAÑA":
@@ -166,18 +179,37 @@ function cuestionario (){
     console.log(" Fin del primer Desafio entregable. Se ejecutó correctamente ");
 }
 
-//LLamada a la funcion principal
+//----FUNCION para aprobar entrega
+
+function muestraPaises (arrayPaises = []){
+    arrayPaises.forEach( (pais)=> {
+        console.log(pais)
+    } )
+}
+
+//--------------CODIGO EJECUTADO----------------------
+//------(LLamada a la funcion principal)
+
+muestraPaises(paisesOkUE);//
 cuestionario();
 
 /*
-Enunciado Desafio opcional
-Consigna: Traslada al proyecto integrador el concepto de objetos, visto en la clase de hoy.
- A partir de los ejemplos mostrados la primera clase, y en función del tipo de simulador que hayas elegido, deberás:
-Incorporar al menos un Array en tu proyecto.
-Utilizar algunos de los métodos o propiedades vistos en la clase.
+---PRIMERA ENTREGA PROYECTO FINAL----
+Objetivos Específicos:
+1-Capturar entradas mediante prompt().
+2-Declarar variables y objetos necesarios para simular el proceso seleccionado.
+3-Crear funciones y/o métodos para realizar operaciones (suma, resta, concatenación, división, porcentaje, etc).
+4-Efectuar una salida, que es el resultado de los datos procesados, la cual puede hacerse por alert() o console.log().
+>>Se debe entregar:
+-Estructura HTML del proyecto.  (OK)
+-Variables de JS necesarias.  (OK)
+-Funciones esenciales del proceso a simular. (OK)
+-Objetos de JS  (OK)
+-Arrays    (OK)
+-Métodos de búsqueda y filtrado sobre el Array (OK)
 */
 
-// GUION: Bienvenido al sistema Emigrapp. Por favor responda las siguientes consultas para armar su itinerario.
+// GUION base: Bienvenido al sistema Emigrapp. Por favor responda las siguientes consultas para armar su itinerario.
 // -A donde desea emigrar? UE(Union Europea) America etc
 // --- Si elige America
 //   --Seleccione el Pais (Canada/Mexico/EEUU/Chile/Brasil)
