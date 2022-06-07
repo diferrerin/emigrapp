@@ -4,28 +4,39 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="../assets/cuestionariov2.js"></script>
+    <link rel="stylesheet" href="../css/estilos.css" />
     <title>Cuestionario para emigrante</title>
 </head>
-<body class="">
-    <header class="">
-
-
-    </header>
+<body>
+    <header class="header__base">
+        <div ><!-- TITULO -->
+            <h1 > EMIGRAPP </h1>
+        </div> 
+        <div ><!-- MENU -->
+          <nav class="header__menuNav">
+            <a href="../index.html" class="mx-2" >  HOME  </a>                   
+            <a href="emigrapp.html" class="mx-2">  EMIGRAR V1  </a> 
+            <a href="cuestionario.html" class="mx-2">  EMIGRAR DOM  </a>              
+          </nav>
+        </div>       
+    </header>  
     <main class="container-xxl my-md-4 bd-layout">
-        <form action="" class="">
+        <form id="formulario" action="" class="container">
             <legend> Emigrapp. Ingrese sus datos.</legend>
             <fieldset class="card mx-4" style="width: 18rem; padding: 1rem;">
                 <p>
                     <div class="form-floating mb-3 mx-4">
-                        <input type="email" class="form-control" id="floatingInput" placeholder="Juana Perez">
-                        <label for="floatingInput">Nombre completo</label>
+                        <input type="text" class="form-control" id="nombre" placeholder="Juana Perez">
+                        <label for="nombre">Nombre completo</label>
                     </div>
                 </p>
                 <p>
-                    <label for="number floatingInput">Edad </label>
-                    <input type="number" id="number">
+                    <label for="edad">Edad </label>
+                    <input type="number" id="edad">
                 </p>
                 <select class="form-select my-3" aria-label="Default select example">
                     <option selected>Seleccione su País de Origen </option>
@@ -35,48 +46,53 @@
                 </select>
                 <select class="form-select my-3" aria-label="Default select example">
                     <option selected>Seleccione su País Destino </option>
-                    <option value="ARG">España</option>
-                    <option value="URU">Francia</option>
-                    <option value="BRA">Italia</option>
+                    <option value="ESP">España</option>
+                    <option value="FRA">Francia</option>
+                    <option value="ITA">Italia</option>
                 </select>
                 <p class="my-4">Ingrese su estado civil. </p>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                    <label class="form-check-label" for="flexRadioDefault1">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="casado"> 
+                    <label class="form-check-label" for="casado">
                     Casado
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                    <label class="form-check-label" for="flexRadioDefault2">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="soltero" checked>
+                    <label class="form-check-label" for="soltero">
                     Soltero
                     </label>
                 </div>
                 <p class="my-4">Mascotas: </p>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault2" id="flexRadioDefault3">
-                    <label class="form-check-label" for="flexRadioDefault1">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault2" id="conMascota">
+                    <label class="form-check-label" for="conMascota">
                     Con Mascotas
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault2" id="flexRadioDefault4" checked>
-                    <label class="form-check-label" for="flexRadioDefault2">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault2" id="sinMascota" checked>
+                    <label class="form-check-label" for="sinMascota">
                     Sin Mascotas
                     </label>
                 </div>
 
                 <p>
-                    <button type="submit" class="my-4">Enviar</button>
+                    <button id="botonResultado" type="submit" class="my-4">Enviar</button>
                 </p>
-
-
             </fieldset>
         </form>
 
+        <div id="resultado" class="container text my-3">
+            <label for="resultado"> Resultado: </label>
+            <p id="textoResultado">
+              Resultado Sin Ejecutar  
+            </p>
+        </div>
+
     </main>   
     <footer>
-
+  
     </footer>
 </body>
 </html>
