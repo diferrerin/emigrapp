@@ -1,4 +1,5 @@
 document.addEventListener(`DOMContentLoaded`,function(){
+    //import * as clases from "./claseUsuario.js" (export del otro lado) (script htm type="module")
 //------------------------------------Inicio Script DOM+Events--------------------------------
 //------------------------------------CLASES--------------------------------------------------
 class Emigrante{
@@ -46,13 +47,20 @@ function functSubmit(){
     let respuestaDom = document.getElementById(`textoResultado`);
     respuestaDom.innerText = emigrante.resultado;
     console.log(respuestaDom);
-    //No logro evitar que refresque, para ver el resultado en el html.....
-
 }
 
 //----------------------------------------------------MAIN-----------------------------------
-let input = document.getElementById("formulario"); //toma inputs de todo el formulario
-input.addEventListener('submit', functSubmit);//Agrega Accion de evento Submit 
+//let input = document.getElementById("formulario"); //toma inputs de todo el formulario
+//input.addEventListener('submit', functSubmit);//Agrega Accion de evento Submit 
+
+//visto en clase falta testear: no funca revisar (lo de arriba si funca)
+let botonResultado = document.getElementById("formulario"); //funciona
+//console.log(botonResultado);
+botonResultado.addEventListener('submit', (evento)=>{
+    evento.preventDefault();
+    console.log(document.getElementById("formulario")[0].value)//loguea el form con todos los valores 
+    functSubmit(); 
+})
 
 //------------------------------------------------------Fin Script---------------------------
 },false);//Fin real. Para que cargue primero el HTML.
@@ -60,10 +68,10 @@ input.addEventListener('submit', functSubmit);//Agrega Accion de evento Submit
 
 /*-------------------ENUNCIADOS--------------------------------------------------------------
 DOM:
-1- Crear elementos manipulando el DOM a partir de la informaciòn de tus objetos.
-2- Modificar etiquetas existentes en función del resultado de operaciones.
+1- Crear elementos manipulando el DOM a partir de la informaciòn de tus objetos. (OK)
+2- Modificar etiquetas existentes en función del resultado de operaciones. (OK)
 Eventos:
-1- Definición de un algoritmo en JavaScript que opere sobre el DOM manejando eventos.
+1- Definición de un algoritmo en JavaScript que opere sobre el DOM manejando eventos. (OK)
 
 ----Guion para entrega
 --El usuario completa el formulario y acciona el boton Enviar (Evento)
