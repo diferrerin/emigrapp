@@ -1,6 +1,8 @@
 document.addEventListener(`DOMContentLoaded`,function(){
     //import * as clases from "./claseUsuario.js" (export del otro lado) (script htm type="module")
 //------------------------------------Inicio Script DOM+Events--------------------------------
+//------------------------------------CONSTANTES----------------------------------------------
+const DateTime = luxon.DateTime; //Para usar LUXOR
 //------------------------------------CLASES--------------------------------------------------
 class Emigrante{
     constructor(nombre, edad, origen , destino , familia, esUE, mascota, conductor, tipoVisa, resultado) {
@@ -17,17 +19,19 @@ class Emigrante{
     }
     crearResultado(){
         return this.resultado = 
-        `Resultado: Nombre: ${this.nombre} 
-                    Edad: ${this.edad} 
-                    Origen: ${this.origen}
-                    Destino: ${this.destino}
-                    ` ;//Estado Civil: ${this.familia}
+        `- Nombre: ${this.nombre} 
+         - Edad: ${this.edad} 
+         - Origen: ${this.origen}
+         - Destino: ${this.destino}
+         - Fecha actual: ` 
+        + DateTime.now().toString()
+        ;
     }
 }
 //----------------------------------------------------FUNCIONES-----------------------------
 function generaEmigranteDom(){
     let resultadoe = new Emigrante();
-    //CHEQUEAR QUE ESTEN CARGADOS LOS DATOS
+    //CHEQUEAR QUE ESTEN CARGADOS LOS DATOS!!! esto con un if avanzado (pendiente)
     resultadoe.nombre = document.getElementById( `nombre` ).value;
     resultadoe.edad = document.getElementById( `edad` ).value;
     //ver el resto de atributos 
@@ -45,7 +49,9 @@ function functSubmit(){
     alert(emigrante.resultado);
     // genera respuesta DOM:
     let respuestaDom = document.getElementById(`textoResultado`);
-    respuestaDom.innerText = emigrante.resultado;
+
+    respuestaDom.innerText = emigrante.resultado ;
+
     console.log(respuestaDom);
 }
 
@@ -53,7 +59,7 @@ function functSubmit(){
 //let input = document.getElementById("formulario"); //toma inputs de todo el formulario
 //input.addEventListener('submit', functSubmit);//Agrega Accion de evento Submit 
 
-//visto en clase falta testear: no funca revisar (lo de arriba si funca)
+
 let botonResultado = document.getElementById("formulario"); //funciona
 //console.log(botonResultado);
 botonResultado.addEventListener('submit', (evento)=>{
@@ -66,18 +72,29 @@ botonResultado.addEventListener('submit', (evento)=>{
 },false);//Fin real. Para que cargue primero el HTML.
 
 
-/*-------------------ENUNCIADOS--------------------------------------------------------------
-DOM:
-1- Crear elementos manipulando el DOM a partir de la informaciòn de tus objetos. (OK)
-2- Modificar etiquetas existentes en función del resultado de operaciones. (OK)
-Eventos:
-1- Definición de un algoritmo en JavaScript que opere sobre el DOM manejando eventos. (OK)
+/*
+Pendientes:
+1-CHEQUEAR QUE ESTEN CARGADOS LOS DATOS!!! esto con un if avanzado (pendiente).
+2-chequear checkbox segun devolucion de Juan.
+3-realizar el proceso de generacion de plan de emigracion.
+4-agregar manejor de respuesta mas avanzado con las fechas (relacionado con pto 3)
+*/
 
-----Guion para entrega
---El usuario completa el formulario y acciona el boton Enviar (Evento)
---Se revisa que todos los campos solicitados estan completos/correctos (DOM)
---Genera el Objeto emigrante (JS)
---El Emigrante ejecuta su metodo generar Texto resultado (JS)
---Se envia al DOM el texto resultado (DOM)
+/*-------------------ENUNCIADOS--------------------------------------------------------------
+
+Entrega Obligatoria:
+-Agregar una libreria al proyecto y justificar eleccion. 
+
+--> Elegi Luxor ya que en el proceso de emigracion se usan varias fechas para realizar tramites y los mismos tardan determinado tiempo.
+
+
+Entrega no obligatoria:
+Aspectos a incluir en el entregable:
+    -Operador Ternario / AND / OR. Busca estructuras condicionales simples en tu proyecto y 
+        simplifícalas utilizando operador ternario u operadores lógicos AND y OR.
+    -Optimización. Con lo visto en clase, optimiza la asignación condicional de variables.
+    -Desestructuración. Aplica la desestructuración según corresponda para recuperar propiedades de objetos con claridad y rapidez.
+    -Spread. Usa el operador spread para replicar objetos o arrays o, también, para mejorar la lógica de tus funciones.
+
 
 */
