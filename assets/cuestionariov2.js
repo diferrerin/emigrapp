@@ -23,8 +23,10 @@ class Emigrante{
          - Edad: ${this.edad} 
          - Origen: ${this.origen}
          - Destino: ${this.destino}
-         - Fecha actual: ` 
+         - Fecha actual: 
+         - ` 
         + DateTime.now().toString()
+        + ` - `
         ;
     }
 }
@@ -41,19 +43,43 @@ function generaEmigranteDom(){
 
     return resultadoe;
 }
-
+function obtenerCotizacionEUR(){
+    //Comunicacion con Api de monedas: consulta valor del euro con USD y ARS
+    let valorUSD = 0;
+    let valorARS = 0;
+    let textRespuesta = ` Actualmente el EURO está cotizando a `
+    const urlUSD='https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur/usd.json';
+    const urlARS='https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur/ars.json';
+     //Comunicacion con Api de monedas: consulta valor del euro con USD
+     fetch (urlUSD)
+     .then ( (respuesta)=> respuesta.json() ).then ( (data)=> {console.log(data.usd)} ); 
+     //muestra el valor ok en la consola... el resultado es un objeto con la fecha y el valor de la moneda usd (si aplico.atributo muestra el atributo)
+    //----
+    fetch (urlUSD).then ( (respuesta)=> respuesta.json() )
+    .then ( function(data) { valorUSD = data.usd; // funca pero no puedo sacar el valor de aca adentro...
+                             console.log(valorUSD + "  fetch test ok");
+                              } );      //return valorUSD;                      
+   /* fetch (urlARS)
+    .then ( (respuesta)=> respuesta.json() )
+    .then ( (data)=> {  valorARS = data.ars} );*/
+    console.log(valorUSD + "  valor fuera de fetch test ok");
+    return textRespuesta + valorUSD + ` USD `;
+}
 function functSubmit(){
     let emigrante = new Emigrante(); 
     emigrante = generaEmigranteDom();//Genera Emigrante en base al HTML
-    console.log(emigrante.crearResultado());//ver rapido test
-    alert(emigrante.resultado);
+    //console.log(emigrante.crearResultado());
+    emigrante.crearResultado();
+    //alert(emigrante.resultado);
     // genera respuesta DOM:
     let respuestaDom = document.getElementById(`textoResultado`);
-
-    respuestaDom.innerText = emigrante.resultado ;
+    let cotizacion = obtenerCotizacionEUR()
+    respuestaDom.innerText = emigrante.resultado + cotizacion ;
 
     console.log(respuestaDom);
 }
+
+
 
 //----------------------------------------------------MAIN-----------------------------------
 //let input = document.getElementById("formulario"); //toma inputs de todo el formulario
@@ -66,6 +92,9 @@ botonResultado.addEventListener('submit', (evento)=>{
     evento.preventDefault();
     console.log(document.getElementById("formulario")[0].value)//loguea el form con todos los valores 
     functSubmit(); 
+    
+   
+
 })
 
 //------------------------------------------------------Fin Script---------------------------
@@ -81,11 +110,21 @@ Pendientes:
 */
 
 /*-------------------ENUNCIADOS--------------------------------------------------------------
-
 Entrega Obligatoria:
--Agregar una libreria al proyecto y justificar eleccion. 
+ Utiliza fetch() para cargar datos en tu aplicación de forma asincrónica.
+Puedes consumir una API que ofrezca recursos relevantes para tu app
+O bien,
+Crea un archivo .JSON y carga los datos de tu app usando fetch y una ruta relativa.
 
---> Elegi Luxor ya que en el proceso de emigracion se usan varias fechas para realizar tramites y los mismos tardan determinado tiempo.
+
+API para Monedas:
+https://github.com/fawazahmed0/currency-api#readme
+https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur/ars.json
+https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur/usd.json
+
+probar:
+fetch (´https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur/usd.json´)
+    .then ( (respuesta)=> respuesta.json() ).then ( (data)=> {console.log(data)} )
 
 
 Entrega no obligatoria:
