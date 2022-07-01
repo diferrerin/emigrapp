@@ -23,10 +23,10 @@ class Emigrante{
          - Edad: ${this.edad} 
          - Origen: ${this.origen}
          - Destino: ${this.destino}
-         - Fecha actual: 
-         - ` 
+         - Fecha actual:  ` 
         + DateTime.now().toString()
-        + ` - `
+        + `
+         - `
         ;
     }
 }
@@ -40,60 +40,55 @@ function generaEmigranteDom(){
     resultadoe.origen = document.getElementById(`origen`).value;
     resultadoe.destino = document.getElementById(`destino`).value;
     //resultadoe.familia = document.getElementById(`estadocivil`).value;//No funciona, tira undefined
-
     return resultadoe;
 }
-function obtenerCotizacionEUR(){
-    //Comunicacion con Api de monedas: consulta valor del euro con USD y ARS
-    let valorUSD = 0;
-    let valorARS = 0;
-    let textRespuesta = ` Actualmente el EURO está cotizando a `
-    const urlUSD='https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur/usd.json';
-    const urlARS='https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur/ars.json';
-     //Comunicacion con Api de monedas: consulta valor del euro con USD
-     fetch (urlUSD)
-     .then ( (respuesta)=> respuesta.json() ).then ( (data)=> {console.log(data.usd)} ); 
-     //muestra el valor ok en la consola... el resultado es un objeto con la fecha y el valor de la moneda usd (si aplico.atributo muestra el atributo)
-    //----
-    fetch (urlUSD).then ( (respuesta)=> respuesta.json() )
-    .then ( function(data) { valorUSD = data.usd; // funca pero no puedo sacar el valor de aca adentro...
-                             console.log(valorUSD + "  fetch test ok");
-                              } );      //return valorUSD;                      
-   /* fetch (urlARS)
-    .then ( (respuesta)=> respuesta.json() )
-    .then ( (data)=> {  valorARS = data.ars} );*/
-    console.log(valorUSD + "  valor fuera de fetch test ok");
-    return textRespuesta + valorUSD + ` USD `;
+async function obtenerCotizacionEUR(){//No se usa, no encuentro la forma que funcione por fuera de esta funcion
+     //OBTENEMOS DE API de monedas la cotizacio del Euro vs USD
+     const urlUSD='https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur/usd.json';
+     const urlARS='https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur/ars.json';
+     const promesa = await fetch(urlUSD);
+     let objson = await promesa.json();
+     let valorUSD = objson.usd.toString(); 
+     const promesa2 = await fetch(urlARS);
+     let objson2 = await promesa2.json();
+     let valorARS = objson2.ars.toString(); 
+     let cotizacionText = `- Actualmente el EURO está cotizando a USD: `+ valorUSD +` y a ARS: `+ valorARS;
+    return cotizacionText;
 }
-function functSubmit(){
+
+async function functSubmit(){
+    //let cotizacionText = obtenerCotizacionEUR(); no funciona, devuelve una promesa.
+         //OBTENEMOS DE API de monedas la cotizacio del Euro vs USD
+         const urlUSD='https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur/usd.json';
+         const urlARS='https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur/ars.json';
+         const promesa = await fetch(urlUSD);
+         let objson = await promesa.json();
+         let valorUSD = objson.usd.toString(); 
+         const promesa2 = await fetch(urlARS);
+         let objson2 = await promesa2.json();
+         let valorARS = objson2.ars.toString(); 
+         let cotizacionText = `- Actualmente el EURO está cotizando a USD: `+ valorUSD +` y a ARS: `+ valorARS;
+    //Genera EMIGRANTE segun los datos cargados de HTML
     let emigrante = new Emigrante(); 
     emigrante = generaEmigranteDom();//Genera Emigrante en base al HTML
-    //console.log(emigrante.crearResultado());
-    emigrante.crearResultado();
-    //alert(emigrante.resultado);
-    // genera respuesta DOM:
-    let respuestaDom = document.getElementById(`textoResultado`);
-    let cotizacion = obtenerCotizacionEUR()
-    respuestaDom.innerText = emigrante.resultado + cotizacion ;
-
+    emigrante.crearResultado();//Crea el texto resultado para mandarlo al DOM
+    let respuestaDom = document.getElementById(`textoResultado`);// genera respuesta DOM:
+    // Agrega al DOM:
+    respuestaDom.innerText = emigrante.resultado + cotizacionText ;
+    //logueo de chequeo
     console.log(respuestaDom);
 }
 
 
 
 //----------------------------------------------------MAIN-----------------------------------
-//let input = document.getElementById("formulario"); //toma inputs de todo el formulario
-//input.addEventListener('submit', functSubmit);//Agrega Accion de evento Submit 
-
 
 let botonResultado = document.getElementById("formulario"); //funciona
 //console.log(botonResultado);
 botonResultado.addEventListener('submit', (evento)=>{
     evento.preventDefault();
-    console.log(document.getElementById("formulario")[0].value)//loguea el form con todos los valores 
+    console.log(document.getElementById("formulario")[0].value)//loguea el form con todos los valores ..undefined...
     functSubmit(); 
-    
-   
 
 })
 
@@ -103,7 +98,8 @@ botonResultado.addEventListener('submit', (evento)=>{
 
 /*
 Pendientes:
-1-CHEQUEAR QUE ESTEN CARGADOS LOS DATOS!!! esto con un if avanzado (pendiente).
+1-CHEQUEAR QUE ESTEN CARGADOS LOS DATOS!!! esto con un if avanzado (pendiente). 
+  -CHEQUEAR 
 2-chequear checkbox segun devolucion de Juan.
 3-realizar el proceso de generacion de plan de emigracion.
 4-agregar manejor de respuesta mas avanzado con las fechas (relacionado con pto 3)
