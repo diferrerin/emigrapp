@@ -193,22 +193,6 @@ function muestraPaises (arrayPaises = []){
 muestraPaises(paisesOkUE);//
 cuestionario();
 
-/*
----PRIMERA ENTREGA PROYECTO FINAL----
-Objetivos Específicos:
-1-Capturar entradas mediante prompt().
-2-Declarar variables y objetos necesarios para simular el proceso seleccionado.
-3-Crear funciones y/o métodos para realizar operaciones (suma, resta, concatenación, división, porcentaje, etc).
-4-Efectuar una salida, que es el resultado de los datos procesados, la cual puede hacerse por alert() o console.log().
->>Se debe entregar:
--Estructura HTML del proyecto.  (OK)
--Variables de JS necesarias.  (OK)
--Funciones esenciales del proceso a simular. (OK)
--Objetos de JS  (OK)
--Arrays    (OK)
--Métodos de búsqueda y filtrado sobre el Array (OK)
-*/
-
 // GUION base: Bienvenido al sistema Emigrapp. Por favor responda las siguientes consultas para armar su itinerario.
 // -A donde desea emigrar? UE(Union Europea) America etc
 // --- Si elige America
