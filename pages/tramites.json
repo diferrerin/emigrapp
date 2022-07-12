@@ -1,0 +1,13 @@
+[
+{"nombre": "DNIe (DNI Español)", "pais": "España","id": 113},
+{"nombre": "Partida de Nacimiento para DNIe", "pais": "España", "id": 111},
+{"nombre": "Baja Consular", "pais": "España", "id": 112},
+{"nombre": "NIE (Numero Identificacion Extranjero)","pais": "España", "id": 12},
+{"nombre": "Matrimonio/Pareja de Hecho", "pais": "España","id": 21},
+{"nombre": "Visa de Trabajo", "pais": "España", "id": 22},
+{"nombre": "Visa de Estudio", "pais": "España", "id": 23},
+{"nombre": "Empadronamiento", "pais": "España", "id": 31},
+{"nombre": "Alta en Sanidad Publica", "pais": "España", "id": 32} ,
+{"nombre": "DNIi (DNI italiano)", "pais": "Italia", "id": 213},
+{"nombre": "DNIf (DNI frances)", "pais": "Francia", "id": 313}
+]

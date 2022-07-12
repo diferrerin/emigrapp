@@ -50,50 +50,27 @@
                     <option value="Francia">Francia</option>
                     <option value="Italia">Italia</option>
                 </select>
-                <div id="estadocivil">
-                    <p class="my-2">Ingrese su estado civil. </p>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="casado" value="casado"> 
-                        <label class="form-check-label" for="casado">
-                        Casado
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="soltero" value="soltero" checked>
-                        <label class="form-check-label" for="soltero">
-                        Soltero
-                        </label>
-                    </div>    
-                </div>
-               
-                <p class="my-2">Mascotas: </p>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault2" id="conMascota">
-                    <label class="form-check-label" for="conMascota">
-                    Con Mascotas
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault2" id="sinMascota" checked>
-                    <label class="form-check-label" for="sinMascota">
-                    Sin Mascotas
-                    </label>
-                </div>
+                <select id="nacioen" class="form-select my-2" aria-label="Default select example">
+                    <option selected>Es ciudadano de... </option>
+                    <option value="1">Pais de la Union Europea. Mismo pais al que emigra.</option>
+                    <option value="2">Pais de la UE. Otro pais al que emigra</option>
+                    <option value="3">Pais que no es miembro de la UE</option>
+                </select>
 
                 <p>
                     <button id="botonResultado" type="submit" class="my-2">Enviar</button>
                 </p>
-                <div id="resultado" class="container text my-2">
-                    <label for="resultado"> Resultado: </label>
-                    <p id="textoResultado">
-                      Resultado Sin Ejecutar  
-                    </p>
-                </div>
 
             </fieldset>
-        </form>
 
-       
+            <div id="resultado" class="container text my-2 card mx-4" style="width: 18rem; padding: 1rem;">
+                <label for="resultado"> Resultado: </label>
+                <p id="textoResultado">
+                  Resultado Sin Ejecutar  
+                </p>
+            </div>
+
+        </form>
 
     </main>   
     <footer>

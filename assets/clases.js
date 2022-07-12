@@ -11,16 +11,16 @@ export class Tramite {
 }
 
 export class Emigrante{
-    constructor(nombre, edad, origen , destino , familia, esUE, mascota, conductor, tipoVisa, resultado) {
+    constructor(nombre, edad, origen , destino , esUE, resultado) { //familia, , mascota, conductor, tipoVisa
         this.nombre = nombre; //String
         this.edad   = edad; //int
         this.origen  = origen;// String
         this.destino  = destino;// String
-        this.familia  = familia;// boolean
-        this.mascota  = mascota;// boolean
-        this.conductor  = conductor;// boolean
-        this.esUE  = esUE; // boolean (es miembro de la Union Europea)
-        this.tipoVisa  = tipoVisa; // String (visa de estudios, trabajo)
+        //this.familia  = familia;// boolean -- No se usa
+        //this.mascota  = mascota;// boolean -- No se usa
+        //this.conductor  = conductor;// boolean -- No se usa
+        this.esUE  = esUE; // codigo (1-es miembro de la Union Europea, mismo pais al que emigra, 2-Es UE otro pais, 3-No es UE)
+        //this.tipoVisa  = tipoVisa; // String (visa de estudios, trabajo) -- No se usa
         this.resultado = resultado ;
     }
     crearResultado(){
@@ -29,6 +29,7 @@ export class Emigrante{
          - Edad: ${this.edad} 
          - Origen: ${this.origen}
          - Destino: ${this.destino}
+         - Tipo Ciudadano: ${this.esUE}
          - Fecha actual:  ` 
         + DateTime.now().toString()
         + `

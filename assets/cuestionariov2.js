@@ -3,27 +3,69 @@ import * as clases from "./clases.js";
 
 document.addEventListener(`DOMContentLoaded`,function(){
 //------------------------------------Inicio Script DOM+Events--------------------------------
-//------------------------------------CONSTANTES----------------------------------------------
-const DateTime = luxon.DateTime; //Para usar LUXON con fechas
-
 //----------------------------------------------------FUNCIONES-----------------------------
-function generaEmigranteDom(){
-    let resultadoe = new clases.Emigrante();
-    //CHEQUEAR QUE ESTEN CARGADOS LOS DATOS!!! esto con un if avanzado (pendiente)
-    resultadoe.nombre = document.getElementById( `nombre` ).value;
-    resultadoe.edad = document.getElementById( `edad` ).value;
-    //ver el resto de atributos 
-    resultadoe.origen = document.getElementById(`origen`).value;
-    resultadoe.destino = document.getElementById(`destino`).value;
-    //resultadoe.familia = document.getElementById(`estadocivil`).value;//No funciona, tira undefined
-    return resultadoe;
+//FUNCION PARA GENERAR EL PLAN EN BASE AL EMIGRANTE CARGADO
+function crearPlan ( valorUE ){// 1, 2 o 3 
+    console.log("Inicia Creacion Plan. "+ valorUE)
+    let planFinal = "";
+    //Puse ruta igual que en el import (antes estaba en assets el json y no anda, lo movi a pages para que ande..)
+    const dirTramite= `./tramites.json `; 
+    //lee del JSON tramites 
+    let textPlan = " - Plan para Emigrar: ";
+    fetch(dirTramite).then( (resp) => resp.json() ).then(
+      (data) =>
+      {   
+          console.log("FETCH . "+ data[0].object) //test para ver que carga..---------------------UNDEFINED
+          if (valorUE == 1 || valorUE == "1")
+            {//Arma plan para ciudadano Esp.
+              textPlan = " - Plan A "
+              
+            }else
+            {
+                  if (valorUE == 2|| valorUE == "2")
+                  {//Arma plan para ciudadano UE no Esp.
+                    textPlan = " - Plan B "
+                  }else 
+                  { //Arma plan para ciudadano no UE.
+                    textPlan = " - Plan C "
+                  }
+            }
+            console.log("FETCH . "+ textPlan) 
+            return textPlan;
+      }//----------------------------------------------------------------------------------------------------------
+    )
 }
-async function obtenerCotizacionEUR(){
+
+//FUNCION PARA GENERAR EL EMIGRANTE Y SU PLAN EN BASE A LOS DATOS CARGADOS EN EL DOM
+function generaEmigranteDom(){
+    let resultadoe = new clases.Emigrante(); //lo que retorna la funcion
+    let testNombre = document.getElementById( `nombre` ).value;
+    let testEdad = document.getElementById( `edad` ).value;
+    let testOrigen = document.getElementById(`origen`).value;
+    let testDestino = document.getElementById(`destino`).value;
+    let testUE = document.getElementById(`nacioen`).value;
+    //CHEQUEA QUE ESTEN CARGADOS LOS DATOS
+    if( testNombre != null && testEdad != null &&  testOrigen != "Seleccione su País de Origen"
+    &&  testDestino != "Seleccione su País de Destino" && testUE !="Es ciudadano de... "){
+      resultadoe.nombre = testNombre;
+      resultadoe.edad = testEdad;
+      resultadoe.origen = testOrigen;
+      resultadoe.destino = testDestino;
+      resultadoe.esUE =  testUE;
+      return resultadoe;
+    }else {
+      let resultadox = new clases.Emigrante();
+      resultadox.nombre = "No dijiste la palabra mágica";
+      console.log("No dijiste la palabra mágica")
+      return resultadox;
+    }
+}
+/*async function obtenerCotizacionEUR(){
 //No se usa, no encuentro la forma que funcione dentro de esta funcion (devuelve objeto Promesa y no un texto)
 //Lo que entiendo es que no se puede crear una funcion (asincronica) para usar de forma sincronica en otro lado..
      const urlUSD='https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur/usd.json';
      const urlARS='https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur/ars.json';
-     const promesa = await fetch(urlUSD);
+     const promesa = await fetch(urlUSD); //se puede simplificar con THEN pero de tanto probar opte por esta opcion
      let objson = await promesa.json();
      let valorUSD = objson.usd.toString(); 
      const promesa2 = await fetch(urlARS);
@@ -31,7 +73,7 @@ async function obtenerCotizacionEUR(){
      let valorARS = objson2.ars.toString(); 
      let cotizacionText = `- Actualmente el EURO está cotizando a USD: `+ valorUSD +` y a ARS: `+ valorARS;
     return cotizacionText;
-}
+}*/
 
 async function functSubmit(){
          //OBTENEMOS DE API de monedas la cotizacio del Euro vs USD (aca funciona OK)
@@ -45,38 +87,41 @@ async function functSubmit(){
          let objson2 = await promesa2.json();
          let valorARS = objson2.ars.toString(); 
          let cotizacionText = `- Actualmente el EURO está cotizando a USD: `+ valorUSD +` y a ARS: `+ valorARS;
+    
     //Genera EMIGRANTE segun los datos cargados de HTML
     let emigrante = new clases.Emigrante(); 
-    emigrante = generaEmigranteDom();//Genera Emigrante en base al HTML
-    emigrante.crearResultado();//Crea el texto resultado para mandarlo al DOM
-    let respuestaDom = document.getElementById(`textoResultado`);// genera respuesta DOM:
-    // Agrega al DOM:
-    respuestaDom.innerText = emigrante.resultado + cotizacionText ; // respuesta de lo ingresado + cotizacion + fecha
+    emigrante = generaEmigranteDom();//Genera Emigrante en base al DOM  
+    let respuestaDom = document.getElementById(`textoResultado`);// obtiene el sector del DOM:
+    //Chequea que este bien cargado el emigrante
+    if(emigrante.nombre != "No dijiste la palabra mágica"){
+         emigrante.crearResultado();//Crea el texto resultado para mandarlo al DOM
+         //CREA EL PLAN PARA AGREGAR AL DOM---------------------------------------------------------------------------
+         let plan = crearPlan( emigrante.esUE ); //envia el parametro tipo para armar el plan
+         console.log("CrearPlan ejecutado . "+ plan) //ERROR crear plan devuelve UNDEFINED------------------<<<<<
+         // Agrega al DOM:--------------------------------------------------------------------------------------------
+         respuestaDom.innerText = emigrante.resultado + cotizacionText + plan ; // respuesta + cotizacion + fecha + PLAN
+         
+    }else{
+         respuestaDom.innerText = " No se ingresaron todos los valores. Vuelva a intentarlo";
+    }
 
 }
 
-
-
 //----------------------------------------------------MAIN-----------------------------------
-
+//se deja el Main en el mismo JS que las funciones por el tema de las promesas....
 let botonResultado = document.getElementById("formulario"); //funciona
 //console.log(botonResultado);
 botonResultado.addEventListener('submit', (evento)=>{
     evento.preventDefault();
-    console.log(document.getElementById("formulario")[0].value)//loguea el form con todos los valores ..undefined...
-    functSubmit(); 
-
+    functSubmit(); //FUNCION PRINCIPAL
 })
-
 //------------------------------------------------------Fin Script---------------------------
 },false);//Fin real. Para que cargue primero el HTML.
 
 
 /*
 Pendientes:
-1-CHEQUEAR QUE ESTEN CARGADOS LOS DATOS!!! esto con un if avanzado (pendiente). 
-  -CHEQUEAR 
-2-chequear checkbox segun devolucion de Juan.
+
 3-realizar el proceso de generacion de plan de emigracion.
 4-agregar manejor de respuesta mas avanzado con las fechas (relacionado con pto 3)
 */
