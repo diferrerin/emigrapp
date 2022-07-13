@@ -5,34 +5,52 @@ document.addEventListener(`DOMContentLoaded`,function(){
 //------------------------------------Inicio Script DOM+Events--------------------------------
 //----------------------------------------------------FUNCIONES-----------------------------
 //FUNCION PARA GENERAR EL PLAN EN BASE AL EMIGRANTE CARGADO
-function crearPlan ( valorUE ){// 1, 2 o 3 
+async function crearPlan2(valorUE) { // Esto no funciona, devuelve una promesa
+  const responseT = await fetch('./tramites.json');
+  const tramitesJson = await responseT.json();
+  console.log(tramitesJson); 
+
+  let tramites = tramitesJson.tramites;
+  let planResultado ="";
+  tramites.forEach((elemento) => {
+
+    planResultado = planResultado + elemento.nombre;
+
+  })
+  console.log(planResultado); 
+  return planResultado;
+}
+
+function crearPlan ( valorUE ){// 1, 2 o 3  No funciona, devuelve objeto indefinido
     console.log("Inicia Creacion Plan. "+ valorUE)
-    let planFinal = "";
     //Puse ruta igual que en el import (antes estaba en assets el json y no anda, lo movi a pages para que ande..)
-    const dirTramite= `./tramites.json `; 
+    const dirTramite= `./tramites.json`; 
+    let tramite = new clases.Tramite();
     //lee del JSON tramites 
     let textPlan = " - Plan para Emigrar: ";
-    fetch(dirTramite).then( (resp) => resp.json() ).then(
+    fetch(dirTramite).then( (resp) => { 
+                                        console.log(resp); //status 200 ok, no encuentro los valores...
+                                        return resp.json(); } ).then(
       (data) =>
       {   
-          console.log("FETCH . "+ data[0].object) //test para ver que carga..---------------------UNDEFINED
+          console.log("FETCH . "+ data) //test para ver que carga..--------------------- object
           if (valorUE == 1 || valorUE == "1")
-            {//Arma plan para ciudadano Esp.
+            {//Arma plan para ciudadano del pais a emigrar.
               textPlan = " - Plan A "
               
             }else
             {
                   if (valorUE == 2|| valorUE == "2")
-                  {//Arma plan para ciudadano UE no Esp.
+                  {//Arma plan para ciudadano UE que no es del pais a emigrar.
                     textPlan = " - Plan B "
                   }else 
                   { //Arma plan para ciudadano no UE.
                     textPlan = " - Plan C "
                   }
             }
-            console.log("FETCH . "+ textPlan) 
+            console.log("FETCH . "+ textPlan) //muestra fetch + Plan OK
             return textPlan;
-      }//----------------------------------------------------------------------------------------------------------
+      }
     )
 }
 
@@ -96,15 +114,48 @@ async function functSubmit(){
     if(emigrante.nombre != "No dijiste la palabra mágica"){
          emigrante.crearResultado();//Crea el texto resultado para mandarlo al DOM
          //CREA EL PLAN PARA AGREGAR AL DOM---------------------------------------------------------------------------
-         let plan = crearPlan( emigrante.esUE ); //envia el parametro tipo para armar el plan
-         console.log("CrearPlan ejecutado . "+ plan) //ERROR crear plan devuelve UNDEFINED------------------<<<<<
+         //let plan = crearPlan( emigrante.esUE ); //envia el parametro tipo para armar el plan
+         //console.log("CrearPlan ejecutado . "+ plan); //ERROR crear plan devuelve UNDEFINED------------------<<<<<
+         //console.log( crearPlan2(emigrante.esUE).Promise ); //devuelve promesa... 
+         const responseT = await fetch('./tramites.json');
+         const tramitesJson = await responseT.json(); //cargamos los tramites del JSON
+         //console.log(tramitesJson); //Funciona OK
+       
+         let tramites = tramitesJson.tramites;
+         let planResultado =" - El Plan de migracion es: ";
+         tramites.forEach((elemento) => {
+              if (emigrante.esUE == 1 && emigrante.destino == "España"){
+                if (elemento.id == 111 || elemento.id == 112 || elemento.id == 113 || elemento.id == 31 || elemento.id == 32) {
+                  planResultado = planResultado + " + " + elemento.nombre;
+                }
+              }  
+              if (emigrante.esUE == 2 && emigrante.destino == "España"){
+                if (elemento.id == 12 || elemento.id == 31 || elemento.id == 32) {
+                  planResultado = planResultado + " + " + elemento.nombre;
+                }
+              }
+              if (emigrante.esUE == 3 && emigrante.destino == "España"){
+                if (elemento.id == 21 || elemento.id == 22 || elemento.id == 23 || elemento.id == 31 || elemento.id == 32) {
+                  planResultado = planResultado + " + " + elemento.nombre;
+                }
+              }
+              if (emigrante.destino == "Italia"){
+                if (elemento.id == 213 && emigrante.destino == "Italia") {
+                  planResultado = planResultado + " + " + elemento.nombre;
+                }
+              }
+              if (emigrante.destino == "Francia"){
+                if (elemento.id == 313 && emigrante.destino == "Francia") {
+                  planResultado = planResultado + " + " + elemento.nombre;
+                }
+              }
+         })
+         //console.log(planResultado); Funciona OK 
          // Agrega al DOM:--------------------------------------------------------------------------------------------
-         respuestaDom.innerText = emigrante.resultado + cotizacionText + plan ; // respuesta + cotizacion + fecha + PLAN
-         
+         respuestaDom.innerText = emigrante.resultado + cotizacionText + planResultado  ; // respuesta + cotizacion + fecha + PLAN  
     }else{
          respuestaDom.innerText = " No se ingresaron todos los valores. Vuelva a intentarlo";
     }
-
 }
 
 //----------------------------------------------------MAIN-----------------------------------
